@@ -3,6 +3,17 @@ from django.contrib.auth.password_validation import validate_password
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
+
+class UserMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "email"]
+        read_only_fields = fields
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, validators=[validate_password])
